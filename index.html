@@ -16,11 +16,14 @@
 
   <!-- SETUP SCREEN -->
   <section id="setupScreen" class="screen">
-    <h2>Add Players</h2>
+    <h2>1. Add Players</h2>
     <form id="addPlayerForm" class="add-player-form">
       <input type="text" id="playerNameInput" placeholder="Player name" autocomplete="off" maxlength="20" required>
       <button type="submit" class="btn btn-primary">Add Player</button>
     </form>
+
+    <h3 class="setup-subhead">2. Confirm Order &amp; Pick the Dealer</h3>
+    <p class="hint">Use the arrows to set seating order, then choose who deals first.</p>
 
     <ul id="playerList" class="player-list"></ul>
 
@@ -33,8 +36,14 @@
   <section id="gameScreen" class="screen hidden">
 
     <div class="round-banner">
-      <span>Round</span>
-      <strong id="roundNumber">1</strong>
+      <div class="round-banner-round">
+        <span>Round</span>
+        <strong id="roundNumber">1</strong>
+      </div>
+      <div class="round-banner-dealer">
+        <span>Dealer</span>
+        <strong id="dealerName">&mdash;</strong>
+      </div>
     </div>
 
     <table class="scoreboard" id="scoreboard">
@@ -67,7 +76,15 @@
 
 <template id="playerListItemTemplate">
   <li class="player-list-item">
+    <div class="player-order-btns">
+      <button type="button" class="move-up-btn" title="Move up">&#9650;</button>
+      <button type="button" class="move-down-btn" title="Move down">&#9660;</button>
+    </div>
     <span class="player-name"></span>
+    <label class="dealer-radio">
+      <input type="radio" name="dealerChoice" class="dealer-radio-input">
+      Dealer
+    </label>
     <button type="button" class="remove-player-btn" title="Remove player">&times;</button>
   </li>
 </template>

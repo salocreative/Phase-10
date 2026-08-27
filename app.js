@@ -22,14 +22,15 @@
    * {
    *   started: bool,
    *   round: number,
-   *   players: [{ id, name, phase, score }],
+   *   players: [{ id, name, phase, score }],  // array order == seating/deal order
+   *   dealerId: string | null,
    *   history: [{ round, entries: [{ playerId, name, points, completed, phaseAtRound }] }]
    * }
    */
   let state = loadState() || freshState();
 
   function freshState() {
-    return { started: false, round: 1, players: [], history: [] };
+    return { started: false, round: 1, players: [], dealerId: null, history: [] };
   }
 
   function loadState() {
@@ -70,6 +71,7 @@
   const playerListItemTemplate = document.getElementById('playerListItemTemplate');
 
   const roundNumberEl = document.getElementById('roundNumber');
+  const dealerNameEl = document.getElementById('dealerName');
   const roundEntryNumberEl = document.getElementById('roundEntryNumber');
   const scoreboardBody = document.getElementById('scoreboardBody');
   const winnerBanner = document.getElementById('winnerBanner');
@@ -93,14 +95,45 @@
   });
 
   playerList.addEventListener('click', (e) => {
-    const btn = e.target.closest('.remove-player-btn');
-    if (!btn) return;
-    const li = btn.closest('.player-list-item');
+    const li = e.target.closest('.player-list-item');
+    if (!li) return;
     const id = li.dataset.id;
-    state.players = state.players.filter((p) => p.id !== id);
+
+    if (e.target.closest('.remove-player-btn')) {
+      state.players = state.players.filter((p) => p.id !== id);
+      if (state.dealerId === id) state.dealerId = null;
+      saveState();
+      renderSetup();
+      return;
+    }
+
+    if (e.target.closest('.move-up-btn')) {
+      movePlayer(id, -1);
+      return;
+    }
+
+    if (e.target.closest('.move-down-btn')) {
+      movePlayer(id, 1);
+      return;
+    }
+  });
+
+  playerList.addEventListener('change', (e) => {
+    if (!e.target.classList.contains('dealer-radio-input')) return;
+    const li = e.target.closest('.player-list-item');
+    state.dealerId = li.dataset.id;
     saveState();
     renderSetup();
   });
+
+  function movePlayer(id, direction) {
+    const index = state.players.findIndex((p) => p.id === id);
+    const swapWith = index + direction;
+    if (index === -1 || swapWith < 0 || swapWith >= state.players.length) return;
+    [state.players[index], state.players[swapWith]] = [state.players[swapWith], state.players[index]];
+    saveState();
+    renderSetup();
+  }
 
   startGameBtn.addEventListener('click', () => {
     if (state.players.length < 2) return;
@@ -111,18 +144,30 @@
   });
 
   function renderSetup() {
+    // Default the dealer to the first player if none (or a removed one) is selected.
+    if (!state.players.some((p) => p.id === state.dealerId)) {
+      state.dealerId = state.players[0] ? state.players[0].id : null;
+    }
+
     playerList.innerHTML = '';
-    state.players.forEach((p) => {
+    state.players.forEach((p, i) => {
       const node = playerListItemTemplate.content.firstElementChild.cloneNode(true);
       node.dataset.id = p.id;
       node.querySelector('.player-name').textContent = p.name;
+
+      node.querySelector('.move-up-btn').disabled = i === 0;
+      node.querySelector('.move-down-btn').disabled = i === state.players.length - 1;
+
+      const dealerInput = node.querySelector('.dealer-radio-input');
+      dealerInput.checked = p.id === state.dealerId;
+
       playerList.appendChild(node);
     });
 
     const enough = state.players.length >= 2;
     startGameBtn.disabled = !enough;
     setupHint.textContent = enough
-      ? `${state.players.length} players ready.`
+      ? `${state.players.length} players ready. ${state.players.find((p) => p.id === state.dealerId)?.name || ''} deals first.`
       : 'Add at least 2 players to start.';
   }
 
@@ -140,6 +185,8 @@
 
     roundNumberEl.textContent = state.round;
     roundEntryNumberEl.textContent = state.round;
+    const dealer = state.players.find((p) => p.id === state.dealerId);
+    dealerNameEl.textContent = dealer ? dealer.name : '—';
 
     renderScoreboard();
     renderWinnerBanner();
@@ -158,8 +205,18 @@
       const complete = p.phase > MAX_PHASE;
       const tr = document.createElement('tr');
 
+      const isDealer = p.id === state.dealerId;
+      if (isDealer) tr.classList.add('dealer-row');
+
       const nameTd = document.createElement('td');
       nameTd.textContent = p.name;
+      if (isDealer) {
+        const badge = document.createElement('span');
+        badge.className = 'dealer-badge';
+        badge.title = 'Dealer';
+        badge.textContent = '🎲';
+        nameTd.appendChild(badge);
+      }
 
       const phaseTd = document.createElement('td');
       const pill = document.createElement('span');
@@ -201,7 +258,9 @@
     state.players.forEach((p) => {
       const row = roundEntryRowTemplate.content.firstElementChild.cloneNode(true);
       row.dataset.id = p.id;
-      row.querySelector('.round-entry-player').textContent = p.name;
+      const isDealer = p.id === state.dealerId;
+      if (isDealer) row.classList.add('dealer-row');
+      row.querySelector('.round-entry-player').textContent = p.name + (isDealer ? ' 🎲' : '');
 
       const phaseEl = row.querySelector('.round-entry-phase');
       const finished = p.phase > MAX_PHASE;
@@ -244,9 +303,22 @@
 
     state.history.push({ round: state.round, entries });
     state.round += 1;
+    advanceDealer();
     saveState();
     render();
   });
+
+  function advanceDealer() {
+    // Deal passes to the next player in seating order each round.
+    const count = state.players.length;
+    if (count === 0) {
+      state.dealerId = null;
+      return;
+    }
+    const currentIndex = state.players.findIndex((p) => p.id === state.dealerId);
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % count;
+    state.dealerId = state.players[nextIndex].id;
+  }
 
   // ---------- History ----------
   toggleHistoryBtn.addEventListener('click', () => {

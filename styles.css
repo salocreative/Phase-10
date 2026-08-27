@@ -130,14 +130,59 @@ body {
 .player-list-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   background: #fbfaf7;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px 14px;
 }
 
-.player-name { font-weight: 600; }
+.player-name { font-weight: 600; flex: 1; }
+
+.setup-subhead {
+  margin: 20px 0 2px;
+  font-size: 0.95rem;
+}
+
+.player-order-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.player-order-btns button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.6rem;
+  line-height: 1;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.player-order-btns button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.player-order-btns button:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.dealer-radio {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dealer-radio input { width: 16px; height: 16px; cursor: pointer; }
+.dealer-radio:has(input:checked) {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
 
 .remove-player-btn {
   background: none;
@@ -157,9 +202,9 @@ body {
 
 .round-banner {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 28px;
   background: var(--primary);
   color: white;
   border-radius: var(--radius);
@@ -167,8 +212,18 @@ body {
   margin-bottom: 16px;
   box-shadow: var(--shadow);
 }
+.round-banner-round, .round-banner-dealer {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.round-banner-dealer {
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  padding-left: 28px;
+}
 .round-banner span { font-size: 0.85rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.05em; }
 .round-banner strong { font-size: 1.4rem; }
+.round-banner-dealer strong { font-size: 1.1rem; }
 
 .scoreboard {
   width: 100%;
@@ -195,6 +250,15 @@ body {
 }
 
 .scoreboard tbody tr:last-child td { border-bottom: none; }
+
+.scoreboard tbody tr.dealer-row { background: #f5f1ff; }
+.scoreboard tbody tr.dealer-row td:first-child { font-weight: 700; }
+
+.dealer-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.9rem;
+}
 
 .col-score { text-align: right; }
 .scoreboard td.col-score { text-align: right; font-weight: 700; }
@@ -260,6 +324,11 @@ body {
   border-radius: 10px;
   padding: 12px;
   background: #fbfaf7;
+}
+
+.round-entry-row.dealer-row {
+  border-color: var(--primary);
+  background: #f5f1ff;
 }
 
 .round-entry-player { grid-area: player; font-weight: 700; }

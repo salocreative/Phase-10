@@ -101,19 +101,9 @@
 
     if (e.target.closest('.remove-player-btn')) {
       state.players = state.players.filter((p) => p.id !== id);
-      if (state.dealerId === id) state.dealerId = null;
+      ensureDealer();
       saveState();
       renderSetup();
-      return;
-    }
-
-    if (e.target.closest('.move-up-btn')) {
-      movePlayer(id, -1);
-      return;
-    }
-
-    if (e.target.closest('.move-down-btn')) {
-      movePlayer(id, 1);
       return;
     }
   });
@@ -126,12 +116,97 @@
     renderSetup();
   });
 
+  // Keyboard fallback for reordering: focus a drag handle, press Up/Down.
+  playerList.addEventListener('keydown', (e) => {
+    if (!e.target.classList.contains('drag-handle')) return;
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    e.preventDefault();
+    const li = e.target.closest('.player-list-item');
+    const id = li.dataset.id;
+    movePlayer(id, e.key === 'ArrowUp' ? -1 : 1);
+    requestAnimationFrame(() => {
+      playerList.querySelector(`.player-list-item[data-id="${id}"] .drag-handle`)?.focus();
+    });
+  });
+
   function movePlayer(id, direction) {
     const index = state.players.findIndex((p) => p.id === id);
     const swapWith = index + direction;
     if (index === -1 || swapWith < 0 || swapWith >= state.players.length) return;
     [state.players[index], state.players[swapWith]] = [state.players[swapWith], state.players[index]];
     saveState();
+    renderSetup();
+  }
+
+  // ---------- Drag-to-reorder (Pointer Events cover mouse, touch, and pen alike) ----------
+  let drag = null;
+
+  playerList.addEventListener('pointerdown', (e) => {
+    if (drag) return;
+    const handle = e.target.closest('.drag-handle');
+    const li = handle && handle.closest('.player-list-item');
+    if (!li) return;
+    e.preventDefault();
+
+    const items = [...playerList.querySelectorAll('.player-list-item')];
+    drag = {
+      pointerId: e.pointerId,
+      li,
+      index: items.indexOf(li),
+      targetIndex: items.indexOf(li),
+      startY: e.clientY,
+      items,
+      rects: items.map((el) => el.getBoundingClientRect()),
+    };
+
+    li.classList.add('dragging');
+    try { handle.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+
+    document.addEventListener('pointermove', onDragMove);
+    document.addEventListener('pointerup', endDrag);
+    document.addEventListener('pointercancel', endDrag);
+  });
+
+  function onDragMove(e) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    const dy = e.clientY - drag.startY;
+    drag.li.style.transform = `translateY(${dy}px)`;
+
+    const rowHeight = drag.rects[drag.index].height;
+    const pointerCenter = drag.rects[drag.index].top + rowHeight / 2 + dy;
+    const firstTop = drag.rects[0].top;
+
+    let targetIndex = Math.round((pointerCenter - firstTop) / rowHeight - 0.5);
+    targetIndex = Math.max(0, Math.min(drag.items.length - 1, targetIndex));
+    drag.targetIndex = targetIndex;
+
+    // Shift the other rows out of the way to preview where the dragged row will land.
+    drag.items.forEach((el, i) => {
+      if (i === drag.index) return;
+      let shift = 0;
+      if (drag.index < targetIndex && i > drag.index && i <= targetIndex) shift = -rowHeight;
+      else if (drag.index > targetIndex && i < drag.index && i >= targetIndex) shift = rowHeight;
+      el.style.transform = shift ? `translateY(${shift}px)` : '';
+    });
+  }
+
+  function endDrag(e) {
+    if (!drag || (e && e.pointerId !== drag.pointerId)) return;
+    const { index, targetIndex, items } = drag;
+
+    document.removeEventListener('pointermove', onDragMove);
+    document.removeEventListener('pointerup', endDrag);
+    document.removeEventListener('pointercancel', endDrag);
+
+    items.forEach((el) => { el.style.transform = ''; });
+    drag.li.classList.remove('dragging');
+    drag = null;
+
+    if (targetIndex !== index) {
+      const [moved] = state.players.splice(index, 1);
+      state.players.splice(targetIndex, 0, moved);
+      saveState();
+    }
     renderSetup();
   }
 
@@ -143,20 +218,25 @@
     render();
   });
 
-  function renderSetup() {
-    // Default the dealer to the first player if none (or a removed one) is selected.
-    if (!state.players.some((p) => p.id === state.dealerId)) {
-      state.dealerId = state.players[0] ? state.players[0].id : null;
+  // Keep dealerId pointing at a real player, defaulting to the first in
+  // seating order. Also repairs sessions saved before dealers existed.
+  function ensureDealer() {
+    if (state.players.some((p) => p.id === state.dealerId)) return;
+    const nextDealerId = state.players[0] ? state.players[0].id : null;
+    if (nextDealerId !== state.dealerId) {
+      state.dealerId = nextDealerId;
+      saveState();
     }
+  }
+
+  function renderSetup() {
+    ensureDealer();
 
     playerList.innerHTML = '';
-    state.players.forEach((p, i) => {
+    state.players.forEach((p) => {
       const node = playerListItemTemplate.content.firstElementChild.cloneNode(true);
       node.dataset.id = p.id;
       node.querySelector('.player-name').textContent = p.name;
-
-      node.querySelector('.move-up-btn').disabled = i === 0;
-      node.querySelector('.move-down-btn').disabled = i === state.players.length - 1;
 
       const dealerInput = node.querySelector('.dealer-radio-input');
       dealerInput.checked = p.id === state.dealerId;
@@ -182,6 +262,10 @@
       renderSetup();
       return;
     }
+
+    // Repairs sessions saved before dealer tracking existed, where a game
+    // may already be in progress with no dealerId set.
+    ensureDealer();
 
     roundNumberEl.textContent = state.round;
     roundEntryNumberEl.textContent = state.round;

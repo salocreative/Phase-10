@@ -23,7 +23,7 @@
     </form>
 
     <h3 class="setup-subhead">2. Confirm Order &amp; Pick the Dealer</h3>
-    <p class="hint">Use the arrows to set seating order, then choose who deals first.</p>
+    <p class="hint">Drag <span aria-hidden="true">&#8942;&#8942;</span> to set seating order, then choose who deals first.</p>
 
     <ul id="playerList" class="player-list"></ul>
 
@@ -76,10 +76,9 @@
 
 <template id="playerListItemTemplate">
   <li class="player-list-item">
-    <div class="player-order-btns">
-      <button type="button" class="move-up-btn" title="Move up">&#9650;</button>
-      <button type="button" class="move-down-btn" title="Move down">&#9660;</button>
-    </div>
+    <button type="button" class="drag-handle" title="Drag to reorder" aria-label="Reorder player (drag, or press arrow keys)">
+      <span aria-hidden="true">&#8942;&#8942;</span>
+    </button>
     <span class="player-name"></span>
     <label class="dealer-radio">
       <input type="radio" name="dealerChoice" class="dealer-radio-input">

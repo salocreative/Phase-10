@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 10 Score Keeper</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <h1>Phase 10 <span>Score Keeper</span></h1>
+    <button id="newGameBtn" class="btn btn-ghost hidden">New Game</button>
+  </header>
+
+  <!-- SETUP SCREEN -->
+  <section id="setupScreen" class="screen">
+    <h2>Add Players</h2>
+    <form id="addPlayerForm" class="add-player-form">
+      <input type="text" id="playerNameInput" placeholder="Player name" autocomplete="off" maxlength="20" required>
+      <button type="submit" class="btn btn-primary">Add Player</button>
+    </form>
+
+    <ul id="playerList" class="player-list"></ul>
+
+    <p id="setupHint" class="hint">Add at least 2 players to start.</p>
+
+    <button id="startGameBtn" class="btn btn-primary btn-large" disabled>Start Game</button>
+  </section>
+
+  <!-- GAME SCREEN -->
+  <section id="gameScreen" class="screen hidden">
+
+    <div class="round-banner">
+      <span>Round</span>
+      <strong id="roundNumber">1</strong>
+    </div>
+
+    <table class="scoreboard" id="scoreboard">
+      <thead>
+        <tr>
+          <th class="col-name">Player</th>
+          <th class="col-phase">Phase</th>
+          <th class="col-score">Score</th>
+        </tr>
+      </thead>
+      <tbody id="scoreboardBody"></tbody>
+    </table>
+
+    <div id="winnerBanner" class="winner-banner hidden"></div>
+
+    <section class="round-entry">
+      <h2>Enter Round <span id="roundEntryNumber">1</span> Results</h2>
+      <div id="roundEntryList" class="round-entry-list"></div>
+      <button id="submitRoundBtn" class="btn btn-primary btn-large">Submit Round</button>
+    </section>
+
+    <section class="history">
+      <button id="toggleHistoryBtn" class="btn btn-ghost" type="button">Show Round History</button>
+      <div id="historyBody" class="history-body hidden"></div>
+    </section>
+
+  </section>
+
+</div>
+
+<template id="playerListItemTemplate">
+  <li class="player-list-item">
+    <span class="player-name"></span>
+    <button type="button" class="remove-player-btn" title="Remove player">&times;</button>
+  </li>
+</template>
+
+<template id="roundEntryRowTemplate">
+  <div class="round-entry-row">
+    <div class="round-entry-player"></div>
+    <div class="round-entry-phase"></div>
+    <label class="round-entry-field">
+      Points
+      <input type="number" class="round-points-input" value="0" step="1">
+    </label>
+    <label class="round-entry-checkbox">
+      <input type="checkbox" class="round-complete-input">
+      Completed phase
+    </label>
+  </div>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

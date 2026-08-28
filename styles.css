@@ -4,8 +4,9 @@
   --ink: #24222b;
   --muted: #6d6a75;
   --border: #e2ddd0;
-  --primary: #7c3aed;
-  --primary-dark: #5f27cd;
+  --primary: #1857b0;
+  --primary-dark: #0e3e86;
+  --primary-tint: #e6eefb;
   --accent-1: #ef4444;
   --accent-2: #f59e0b;
   --accent-3: #10b981;
@@ -87,13 +88,6 @@ body {
   font-size: 0.9rem;
 }
 
-.screen {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-}
-
 .screen h2 {
   margin-top: 0;
   font-size: 1.1rem;
@@ -103,6 +97,11 @@ body {
   display: flex;
   gap: 8px;
   margin-bottom: 16px;
+}
+
+.add-player-form button {
+  flex: none;
+  white-space: nowrap;
 }
 
 .add-player-form input {
@@ -174,7 +173,7 @@ body {
   -webkit-touch-callout: none;
 }
 .drag-handle:active { cursor: grabbing; }
-.drag-handle:hover { background: #f1edff; color: var(--primary-dark); }
+.drag-handle:hover { background: var(--primary-tint); color: var(--primary-dark); }
 .drag-handle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
 .dealer-radio {
@@ -259,7 +258,7 @@ body {
 
 .scoreboard tbody tr:last-child td { border-bottom: none; }
 
-.scoreboard tbody tr.dealer-row { background: #f5f1ff; }
+.scoreboard tbody tr.dealer-row { background: var(--primary-tint); }
 .scoreboard tbody tr.dealer-row td:first-child { font-weight: 700; }
 
 .dealer-badge {
@@ -273,7 +272,7 @@ body {
 
 .phase-pill {
   display: inline-block;
-  background: #ede9fe;
+  background: var(--primary-tint);
   color: var(--primary-dark);
   border-radius: 999px;
   padding: 3px 10px;
@@ -336,7 +335,7 @@ body {
 
 .round-entry-row.dealer-row {
   border-color: var(--primary);
-  background: #f5f1ff;
+  background: var(--primary-tint);
 }
 
 .round-entry-player { grid-area: player; font-weight: 700; }

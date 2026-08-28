@@ -138,10 +138,17 @@
     renderSetup();
   }
 
-  // ---------- Drag-to-reorder (Pointer Events cover mouse, touch, and pen alike) ----------
+  // ---------- Drag-to-reorder ----------
+  // Native touch + mouse events (rather than Pointer Events) — the most
+  // broadly compatible combination on mobile Safari, where Pointer Event
+  // support for setPointerCapture/preventDefault has been inconsistent.
   let drag = null;
 
-  playerList.addEventListener('pointerdown', (e) => {
+  function getClientY(e) {
+    return e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
+  }
+
+  function startDrag(e) {
     if (drag) return;
     const handle = e.target.closest('.drag-handle');
     const li = handle && handle.closest('.player-list-item');
@@ -150,26 +157,34 @@
 
     const items = [...playerList.querySelectorAll('.player-list-item')];
     drag = {
-      pointerId: e.pointerId,
+      touch: e.type === 'touchstart',
       li,
       index: items.indexOf(li),
       targetIndex: items.indexOf(li),
-      startY: e.clientY,
+      startY: getClientY(e),
       items,
       rects: items.map((el) => el.getBoundingClientRect()),
     };
 
     li.classList.add('dragging');
-    try { handle.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
 
-    document.addEventListener('pointermove', onDragMove);
-    document.addEventListener('pointerup', endDrag);
-    document.addEventListener('pointercancel', endDrag);
-  });
+    if (drag.touch) {
+      document.addEventListener('touchmove', onDragMove, { passive: false });
+      document.addEventListener('touchend', endDrag);
+      document.addEventListener('touchcancel', endDrag);
+    } else {
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', endDrag);
+    }
+  }
+
+  playerList.addEventListener('mousedown', startDrag);
+  playerList.addEventListener('touchstart', startDrag, { passive: false });
 
   function onDragMove(e) {
-    if (!drag || e.pointerId !== drag.pointerId) return;
-    const dy = e.clientY - drag.startY;
+    if (!drag) return;
+    e.preventDefault();
+    const dy = getClientY(e) - drag.startY;
     drag.li.style.transform = `translateY(${dy}px)`;
 
     const rowHeight = drag.rects[drag.index].height;
@@ -190,13 +205,18 @@
     });
   }
 
-  function endDrag(e) {
-    if (!drag || (e && e.pointerId !== drag.pointerId)) return;
-    const { index, targetIndex, items } = drag;
+  function endDrag() {
+    if (!drag) return;
+    const { index, targetIndex, items, touch } = drag;
 
-    document.removeEventListener('pointermove', onDragMove);
-    document.removeEventListener('pointerup', endDrag);
-    document.removeEventListener('pointercancel', endDrag);
+    if (touch) {
+      document.removeEventListener('touchmove', onDragMove);
+      document.removeEventListener('touchend', endDrag);
+      document.removeEventListener('touchcancel', endDrag);
+    } else {
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', endDrag);
+    }
 
     items.forEach((el) => { el.style.transform = ''; });
     drag.li.classList.remove('dragging');

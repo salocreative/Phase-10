@@ -37,7 +37,7 @@
 }
 </script>
 
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 <div class="app">
@@ -96,7 +96,7 @@
 
   <!-- SETUP SCREEN -->
   <section id="setupScreen" class="screen">
-    <h2>1. Add Players</h2>
+    <h2 id="addPlayersHeading">1. Add Players</h2>
     <form id="addPlayerForm" class="add-player-form">
       <input type="text" id="playerNameInput" placeholder="Player name" autocomplete="off" maxlength="20" required>
       <button type="submit" class="btn btn-primary">Add Player</button>
@@ -154,6 +154,8 @@
 
 </div>
 
+<button type="button" id="jumpToSetupBtn" class="jump-fab">Add Players &#8595;</button>
+
 <template id="playerListItemTemplate">
   <li class="player-list-item">
     <button type="button" class="drag-handle" title="Drag to reorder" aria-label="Reorder player (drag, or press arrow keys)">
@@ -183,6 +185,6 @@
   </div>
 </template>
 
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

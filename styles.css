@@ -94,6 +94,15 @@ body {
 }
 
 /* ---------- Landing / SEO intro content ---------- */
+#landingIntro {
+  background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #eaf1fc;
+  border-radius: var(--radius);
+  padding: 24px 20px 0;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+
 .hero {
   margin-bottom: 28px;
 }
@@ -102,10 +111,11 @@ body {
   font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 8px;
+  color: #ffffff;
 }
 
 .hero-lead {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.82);
   margin: 0 0 16px;
   line-height: 1.5;
 }
@@ -125,6 +135,7 @@ body {
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 0.92rem;
+  color: var(--ink);
 }
 
 .how-it-works, .faq {
@@ -134,6 +145,7 @@ body {
 .how-it-works h2, .faq h2 {
   font-size: 1.05rem;
   margin: 0 0 12px;
+  color: #ffffff;
 }
 
 .steps {
@@ -143,9 +155,10 @@ body {
   flex-direction: column;
   gap: 8px;
   line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.steps strong { color: var(--primary-dark); }
+.steps strong { color: #ffffff; }
 
 .faq details {
   background: var(--card-bg);
@@ -153,6 +166,7 @@ body {
   border-radius: 10px;
   padding: 12px 14px;
   margin-bottom: 8px;
+  color: var(--ink);
 }
 
 .faq summary {
@@ -174,6 +188,37 @@ body {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+.jump-fab {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) translateY(0);
+  z-index: 20;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 24px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 20px rgba(14, 62, 134, 0.35);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+@media (max-width: 699px) {
+  .jump-fab { display: block; }
+  .jump-fab.jump-fab-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(-4px);
+  }
 }
 
 .add-player-form {

@@ -70,6 +70,8 @@
   const setupHint = document.getElementById('setupHint');
   const startGameBtn = document.getElementById('startGameBtn');
   const playerListItemTemplate = document.getElementById('playerListItemTemplate');
+  const addPlayersHeading = document.getElementById('addPlayersHeading');
+  const jumpToSetupBtn = document.getElementById('jumpToSetupBtn');
 
   const roundNumberEl = document.getElementById('roundNumber');
   const dealerNameEl = document.getElementById('dealerName');
@@ -272,6 +274,29 @@
       : 'Add at least 2 players to start.';
   }
 
+  // ---------- Mobile "jump to Add Players" button ----------
+  // Shown (small screens only, via CSS) while the intro content is scrolled
+  // past but the Add Players heading hasn't come into view yet.
+  let addPlayersHeadingInView = false;
+
+  function updateJumpButton() {
+    jumpToSetupBtn.classList.toggle('jump-fab-visible', !state.started && !addPlayersHeadingInView);
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(
+      (entries) => {
+        addPlayersHeadingInView = entries[0].isIntersecting;
+        updateJumpButton();
+      },
+      { rootMargin: '0px 0px -25% 0px' }
+    ).observe(addPlayersHeading);
+  }
+
+  jumpToSetupBtn.addEventListener('click', () => {
+    addPlayersHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
   // ---------- Game screen ----------
   function render() {
     const isStarted = state.started;
@@ -279,6 +304,7 @@
     setupScreen.classList.toggle('hidden', isStarted);
     gameScreen.classList.toggle('hidden', !isStarted);
     newGameBtn.classList.toggle('hidden', !isStarted && state.players.length === 0);
+    updateJumpButton();
 
     if (!isStarted) {
       renderSetup();

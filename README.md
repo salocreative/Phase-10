@@ -41,6 +41,6 @@ players go straight to their scoreboard. Related files:
 - Meta description, canonical link, and JSON-LD `WebApplication` structured
   data live in `<head>`
 
-The canonical/OG URLs assume this is served at
-`https://salocreative.github.io/Phase-10/` — update them if that changes
-(e.g. a custom domain).
+The canonical/OG URLs point at the custom domain in `CNAME`
+(`https://phase10.live/`) — update `index.html`, `robots.txt`, and
+`sitemap.xml` together if the domain ever changes.

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://salocreative.github.io/Phase-10/sitemap.xml
+Sitemap: https://phase10.live/sitemap.xml

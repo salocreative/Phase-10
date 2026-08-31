@@ -28,3 +28,19 @@ npx serve .
 
 No scores or player data are sent anywhere — everything stays local to the
 browser tab/session.
+
+## SEO / landing content
+
+`index.html` also carries a short marketing intro (tagline, feature list, "how
+it works", FAQ) above the setup form — real static copy for search engines and
+new visitors, hidden automatically once a game is in progress so returning
+players go straight to their scoreboard. Related files:
+
+- `robots.txt`, `sitemap.xml` — crawler discovery, at the repo root
+- `assets/og-image.png` — social share preview (Open Graph / Twitter Card)
+- Meta description, canonical link, and JSON-LD `WebApplication` structured
+  data live in `<head>`
+
+The canonical/OG URLs assume this is served at
+`https://salocreative.github.io/Phase-10/` — update them if that changes
+(e.g. a custom domain).

@@ -3,8 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phase 10 Score Keeper</title>
-<link rel="stylesheet" href="styles.css?v=4">
+
+<title>Phase 10 Score Keeper – Free Online Score Card &amp; Dealer Tracker</title>
+<meta name="description" content="Free Phase 10 score keeper for game night. Add players, track each phase, and let it rotate the dealer automatically — no sign-up, no ads, no app to install.">
+<link rel="canonical" href="https://salocreative.github.io/Phase-10/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Phase 10 Score Keeper">
+<meta property="og:description" content="Free Phase 10 score keeper for game night. Track phases, scores, and the dealer automatically — no sign-up, no ads.">
+<meta property="og:url" content="https://salocreative.github.io/Phase-10/">
+<meta property="og:image" content="https://salocreative.github.io/Phase-10/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phase 10 Score Keeper">
+<meta name="twitter:description" content="Free Phase 10 score keeper for game night. Track phases, scores, and the dealer automatically — no sign-up, no ads.">
+<meta name="twitter:image" content="https://salocreative.github.io/Phase-10/assets/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231857b0'/%3E%3Ctext x='32' y='42' font-family='Arial, sans-serif' font-size='26' font-weight='700' fill='white' text-anchor='middle'%3E10%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Phase 10 Score Keeper",
+  "url": "https://salocreative.github.io/Phase-10/",
+  "description": "Free Phase 10 score keeper for game night. Add players, track each phase, and let it rotate the dealer automatically — no sign-up, no ads, no app to install.",
+  "applicationCategory": "Game",
+  "operatingSystem": "Any (web browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 <div class="app">
@@ -13,6 +46,53 @@
     <h1>Phase 10 <span>Score Keeper</span></h1>
     <button id="newGameBtn" class="btn btn-ghost hidden">New Game</button>
   </header>
+
+  <!-- LANDING / SEO CONTENT (hidden once a game is in progress) -->
+  <section id="landingIntro">
+    <section class="hero">
+      <p class="hero-tagline">The free, no-signup Phase 10 score card for game night.</p>
+      <p class="hero-lead">
+        Add your players, hit start, and keep the game moving — this app tracks
+        everyone's phase, running score, and whose turn it is to deal, right from
+        a phone on the table.
+      </p>
+      <ul class="feature-list">
+        <li>🎯 Tracks each player's current phase automatically</li>
+        <li>🎲 Rotates the dealer for you every round</li>
+        <li>📱 Works in any phone or tablet browser — no app to install</li>
+        <li>🔒 Nothing leaves your device — no account, no ads, no tracking</li>
+      </ul>
+    </section>
+
+    <section class="how-it-works">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Add your players.</strong> Type each name and hit add.</li>
+        <li><strong>Set the seating order and dealer.</strong> Drag to reorder, then pick who deals first.</li>
+        <li><strong>Score each round.</strong> Enter points and check off anyone who completed their phase — totals and the dealer update automatically.</li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>How does scoring work in Phase 10?</summary>
+        <p>Each round, players who don't complete their phase add up the point value of the cards left in their hand. This app doesn't tally card values for you — enter whatever your table agrees the round's points are, and check "Completed phase" for anyone who finished and can move on to the next phase.</p>
+      </details>
+      <details>
+        <summary>Who deals first in Phase 10?</summary>
+        <p>Deal traditionally passes to the left each round. Pick a starting dealer during setup and this app rotates it automatically after every round is submitted.</p>
+      </details>
+      <details>
+        <summary>Is this app free to use?</summary>
+        <p>Yes — completely free, with no account, sign-up, or ads.</p>
+      </details>
+      <details>
+        <summary>Does it save my game if I close the browser?</summary>
+        <p>Yes. Your current game is saved to your browser's local storage, so reopening the page picks up right where you left off. Nothing is uploaded anywhere — scores stay on your device.</p>
+      </details>
+    </section>
+  </section>
 
   <!-- SETUP SCREEN -->
   <section id="setupScreen" class="screen">
@@ -103,6 +183,6 @@
   </div>
 </template>
 
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

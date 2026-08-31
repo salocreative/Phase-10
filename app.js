@@ -59,6 +59,7 @@
   }
 
   // ---------- DOM refs ----------
+  const landingIntro = document.getElementById('landingIntro');
   const setupScreen = document.getElementById('setupScreen');
   const gameScreen = document.getElementById('gameScreen');
   const newGameBtn = document.getElementById('newGameBtn');
@@ -274,6 +275,7 @@
   // ---------- Game screen ----------
   function render() {
     const isStarted = state.started;
+    landingIntro.classList.toggle('hidden', isStarted);
     setupScreen.classList.toggle('hidden', isStarted);
     gameScreen.classList.toggle('hidden', !isStarted);
     newGameBtn.classList.toggle('hidden', !isStarted && state.players.length === 0);

@@ -497,6 +497,61 @@
     render();
   });
 
+  // ---------- Privacy modal ----------
+  const privacyModal = document.getElementById('privacyModal');
+  const privacyDialog = privacyModal.querySelector('.modal-dialog');
+  const privacyOpeners = document.querySelectorAll('.js-privacy-open');
+  const privacyClosers = privacyModal.querySelectorAll('.js-privacy-close');
+  let privacyLastOpener = null;
+
+  function privacyFocusables() {
+    return [...privacyDialog.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')]
+      .filter((el) => !el.hasAttribute('disabled'));
+  }
+
+  function openPrivacy(opener) {
+    privacyLastOpener = opener || document.activeElement;
+    privacyModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    privacyDialog.focus();
+  }
+
+  function closePrivacy() {
+    if (privacyModal.hidden) return;
+    privacyModal.hidden = true;
+    document.body.style.overflow = '';
+    if (privacyLastOpener && typeof privacyLastOpener.focus === 'function') {
+      privacyLastOpener.focus();
+    }
+  }
+
+  privacyOpeners.forEach((btn) => {
+    btn.addEventListener('click', () => openPrivacy(btn));
+  });
+  privacyClosers.forEach((el) => {
+    el.addEventListener('click', closePrivacy);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (privacyModal.hidden) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closePrivacy();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const nodes = privacyFocusables();
+    if (!nodes.length) return;
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
   // ---------- Init ----------
   render();
 })();

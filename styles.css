@@ -257,6 +257,127 @@ body {
   color: #ffffff;
 }
 
+.privacy-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--primary-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.disclaimer .privacy-link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.disclaimer .privacy-link:hover {
+  color: #ffffff;
+}
+
+.privacy-inline {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.modal[hidden] {
+  display: none !important;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(36, 34, 43, 0.5);
+}
+
+.modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: min(80vh, 720px);
+  overflow-y: auto;
+  background: var(--card-bg);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 16px 40px rgba(36, 34, 43, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus-visible {
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+  outline: none;
+}
+
+.modal-dialog h2 {
+  margin: 0 28px 4px 0;
+  font-size: 1.25rem;
+}
+
+.modal-updated {
+  margin: 0 0 16px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.modal-dialog h3 {
+  margin: 20px 0 8px;
+  font-size: 0.95rem;
+}
+
+.modal-dialog p,
+.modal-dialog li {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.modal-dialog ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+
+.modal-dialog a {
+  color: var(--primary-dark);
+}
+
+.modal-dialog code {
+  font-size: 0.82em;
+  background: #f4f1ea;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
 .jump-fab {
   display: none;
   position: fixed;

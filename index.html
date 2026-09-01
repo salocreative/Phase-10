@@ -37,7 +37,7 @@
 }
 </script>
 
-<link rel="stylesheet" href="styles.css?v=18">
+<link rel="stylesheet" href="styles.css?v=19">
 </head>
 <body>
 <div class="app">
@@ -83,6 +83,7 @@
       who holds the Phase 10 copyright. There isn't an official score app, so
       fans built this one for game night. To play the real thing,
       <a href="https://www.phase10.com/" target="_blank" rel="noopener noreferrer">get the game at phase10.com</a>.
+      <button type="button" class="privacy-link js-privacy-open">Privacy &amp; cookies</button>
     </p>
     </div>
   </section>
@@ -145,6 +146,7 @@
     <section class="history">
       <button id="toggleHistoryBtn" class="btn btn-ghost" type="button">Show Round History</button>
       <div id="historyBody" class="history-body hidden"></div>
+      <p class="privacy-inline"><button type="button" class="privacy-link js-privacy-open">Privacy &amp; cookies</button></p>
     </section>
 
   </section>
@@ -152,6 +154,50 @@
 </div>
 
 <button type="button" id="jumpToSetupBtn" class="jump-fab">Add Players &#8595;</button>
+
+<div id="privacyModal" class="modal" hidden>
+  <div class="modal-backdrop js-privacy-close"></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" tabindex="-1">
+    <button type="button" class="modal-close js-privacy-close" aria-label="Close privacy notice">&times;</button>
+    <h2 id="privacyTitle">Privacy &amp; cookies</h2>
+    <p class="modal-updated">Last updated: 1 September 2026</p>
+
+    <p>This notice is for <strong>phase10.live</strong>, an unofficial fan-made Phase 10 score keeper. It explains what this site does — and does not — do with information on your device.</p>
+
+    <h3>Cookies</h3>
+    <p>This site does not set cookies. There is no cookie banner because we do not use advertising, analytics, or optional tracking cookies.</p>
+    <p>Your browser may still store a small amount of data locally so the score keeper can work. That storage is described below. It is used only to provide the tool you asked for, so we do not ask for cookie consent.</p>
+
+    <h3>What stays on your device</h3>
+    <p>The app runs entirely in your browser. To remember a game if you refresh the page or come back later, it saves the current session in your browser's <strong>local storage</strong> (not a cookie), under the name <code>phase10.session.v1</code>. That can include:</p>
+    <ul>
+      <li>Player names you type in</li>
+      <li>Scores, current phase, dealer, round number, and round history</li>
+    </ul>
+    <p>This information is not uploaded to us. We do not have user accounts, and we cannot see your scores or names from our side.</p>
+
+    <h3>What we do not do</h3>
+    <ul>
+      <li>No advertising or ad networks</li>
+      <li>No analytics, tags, or tracking pixels</li>
+      <li>No selling or sharing of game data</li>
+      <li>No sign-up or mailing list</li>
+    </ul>
+
+    <h3>Hosting</h3>
+    <p>The site is a static website. The company that hosts it may process standard technical logs (for example IP address, browser type, and the page requested) in order to deliver the files and keep the service secure. We do not use those logs for marketing. GitHub Pages currently hosts this site; GitHub's own privacy statement covers that hosting.</p>
+
+    <h3>External links</h3>
+    <p>Links to other websites, including <a href="https://www.phase10.com/" target="_blank" rel="noopener noreferrer">phase10.com</a>, have their own privacy practices. We are not responsible for those sites.</p>
+
+    <h3>How to delete the saved game</h3>
+    <p>Use <strong>New Game</strong> in the app to clear the current session. You can also delete site data for phase10.live in your browser settings, which removes the local storage entry.</p>
+
+    <h3>Your rights</h3>
+    <p>Because game details stay on your device, you control them there. If names you enter are personal data, they are processed on your device so the score keeper can function. We do not hold a copy on a server to access, correct, or export for you.</p>
+    <p>If you have a question about this notice, please open an issue on <a href="https://github.com/salocreative/Phase-10" target="_blank" rel="noopener noreferrer">the project's GitHub repository</a>.</p>
+  </div>
+</div>
 
 <template id="playerListItemTemplate">
   <li class="player-list-item">
@@ -182,6 +228,6 @@
   </div>
 </template>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

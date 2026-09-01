@@ -199,7 +199,7 @@ body {
 }
 
 .hero-tagline {
-  font-size: 2.35rem;
+  font-size: 3.35rem;
   font-weight: 700;
   margin: 0 0 10px;
   color: #ffffff;
@@ -348,6 +348,23 @@ body {
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+.disclaimer {
+  margin: 24px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.disclaimer a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.disclaimer a:hover {
+  color: #ffffff;
 }
 
 .jump-fab {

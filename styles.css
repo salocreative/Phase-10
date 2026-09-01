@@ -126,7 +126,7 @@ body {
 
 .app:has(#landingIntro:not(.hidden)) .app-header {
   margin: 0;
-  padding: 20px 24px 8px;
+  padding: 20px 24px 24px;
   justify-content: center;
   background: linear-gradient(165deg, #1d64c4 0%, var(--primary-dark) 100%);
   background-attachment: fixed;
@@ -193,23 +193,16 @@ body {
     padding: 48px;
     background: #fbfaf7;
   }
-
-  #setupScreen .column-inner {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-  }
 }
 
 .hero {
-  margin-bottom: 28px;
+  margin-bottom: 40px;
 }
 
 .hero-tagline {
   font-size: 3.35rem;
   font-weight: 700;
-  margin: 0 0 10px;
+  margin: 0 0 24px;
   color: #ffffff;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -217,7 +210,7 @@ body {
 
 .hero-lead {
   color: rgba(255, 255, 255, 0.82);
-  margin: 0 0 16px;
+  margin: 0 0 36px;
   line-height: 1.5;
 }
 
@@ -227,7 +220,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
 .feature-list li {
@@ -245,24 +238,6 @@ body {
   height: 20px;
   margin-top: 1px;
   color: #ffffff;
-}
-
-@media (min-width: 800px) {
-  .hero {
-    margin-bottom: 40px;
-  }
-
-  .hero-tagline {
-    margin-bottom: 24px;
-  }
-
-  .hero-lead {
-    margin-bottom: 36px;
-  }
-
-  .feature-list {
-    gap: 20px;
-  }
 }
 
 .disclaimer {
@@ -330,7 +305,7 @@ body {
   padding: 12px 14px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: #fbfaf7;
+  background: #ffffff;
 }
 .add-player-form input:focus {
   outline: 2px solid var(--primary);
@@ -350,7 +325,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #fbfaf7;
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px 14px;
@@ -425,6 +400,10 @@ body {
   color: var(--muted);
   font-size: 0.85rem;
   margin: 8px 0 0;
+}
+
+.setup-subhead + .hint {
+  margin-bottom: 16px;
 }
 
 .round-banner {

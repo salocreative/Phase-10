@@ -297,6 +297,34 @@
     addPlayersHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  // ---------- Intro tabs (How it works / FAQ) ----------
+  const introTabButtons = document.querySelectorAll('[data-intro-tab]');
+
+  function activateIntroTab(name) {
+    introTabButtons.forEach((btn) => {
+      const selected = btn.dataset.introTab === name;
+      btn.setAttribute('aria-selected', selected ? 'true' : 'false');
+      btn.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (panel) panel.toggleAttribute('hidden', !selected);
+    });
+  }
+
+  introTabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => activateIntroTab(btn.dataset.introTab));
+    btn.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const tabs = [...introTabButtons];
+      const index = tabs.indexOf(btn);
+      const next = event.key === 'ArrowRight'
+        ? (index + 1) % tabs.length
+        : (index - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      activateIntroTab(tabs[next].dataset.introTab);
+    });
+  });
+
   // ---------- Game screen ----------
   function render() {
     const isStarted = state.started;

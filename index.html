@@ -37,17 +37,18 @@
 }
 </script>
 
-<link rel="stylesheet" href="styles.css?v=14">
+<link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
 <div class="app">
 
+  <div class="pregame-layout">
+    <div class="pregame-left">
   <header class="app-header">
     <h1>Phase 10 <span>Score Keeper</span></h1>
     <button id="newGameBtn" class="btn btn-ghost hidden">New Game</button>
   </header>
 
-  <div class="pregame-layout">
   <!-- LANDING / SEO CONTENT (hidden once a game is in progress) -->
   <section id="landingIntro">
     <div class="column-inner">
@@ -77,42 +78,6 @@
         </li>
       </ul>
     </section>
-
-    <section class="intro-tabs">
-      <div class="intro-tabs-nav" role="tablist" aria-label="About this score keeper">
-        <button type="button" role="tab" id="tabHow" data-intro-tab="how" aria-controls="panelHow" aria-selected="true">How it works</button>
-        <button type="button" role="tab" id="tabFaq" data-intro-tab="faq" aria-controls="panelFaq" aria-selected="false" tabindex="-1">FAQ</button>
-      </div>
-      <div class="intro-tabs-body">
-        <section id="panelHow" class="how-it-works" role="tabpanel" aria-labelledby="tabHow">
-          <h2 class="visually-hidden">How it works</h2>
-          <ol class="steps">
-            <li><strong>Add your players.</strong> Type each name and hit add.</li>
-            <li><strong>Set the seating order and dealer.</strong> Drag to reorder, then pick who deals first.</li>
-            <li><strong>Score each round.</strong> Enter points and check off anyone who completed their phase — totals and the dealer update automatically.</li>
-          </ol>
-        </section>
-        <section id="panelFaq" class="faq" role="tabpanel" aria-labelledby="tabFaq" hidden>
-          <h2 class="visually-hidden">Frequently asked questions</h2>
-          <details>
-            <summary>How does scoring work in Phase 10?</summary>
-            <p>Each round, players who don't complete their phase add up the point value of the cards left in their hand. This app doesn't tally card values for you — enter whatever your table agrees the round's points are, and check "Completed phase" for anyone who finished and can move on to the next phase.</p>
-          </details>
-          <details>
-            <summary>Who deals first in Phase 10?</summary>
-            <p>Deal traditionally passes to the left each round. Pick a starting dealer during setup and this app rotates it automatically after every round is submitted.</p>
-          </details>
-          <details>
-            <summary>Is this app free to use?</summary>
-            <p>Yes — completely free, with no account, sign-up, or ads.</p>
-          </details>
-          <details>
-            <summary>Does it save my game if I close the browser?</summary>
-            <p>Yes. Your current game is saved to your browser's local storage, so reopening the page picks up right where you left off. Nothing is uploaded anywhere — scores stay on your device.</p>
-          </details>
-        </section>
-      </div>
-    </section>
     <p class="disclaimer">
       Unofficial and fan-made — not affiliated with Phase 10 Games or Ken Johnson,
       who holds the Phase 10 copyright. There isn't an official score app, so
@@ -121,6 +86,7 @@
     </p>
     </div>
   </section>
+    </div>
 
   <!-- SETUP SCREEN -->
   <section id="setupScreen" class="screen">
@@ -216,6 +182,6 @@
   </div>
 </template>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
